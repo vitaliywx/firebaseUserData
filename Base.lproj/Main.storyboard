@@ -70,12 +70,20 @@
                                 <action selector="logoutButton:" destination="BYZ-38-t0r" id="nTW-Eb-rNW"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="GGt-NI-s8E">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <action selector="addButton:" destination="BYZ-38-t0r" id="QH7-jd-JNC"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="GGt-NI-s8E">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="addButton:" destination="BYZ-38-t0r" id="QH7-jd-JNC"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Test" id="TGO-nH-M0o">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="testButton:" destination="BYZ-38-t0r" id="G52-ZY-Jbt"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="0KT-ze-btp" id="p0C-U9-4bt"/>
@@ -145,7 +153,7 @@
                                     <constraint firstAttribute="height" constant="45" id="cBr-Pa-5aC"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cma-yz-8Sh">
                                 <rect key="frame" x="50" y="429.66666666666669" width="293" height="32"/>

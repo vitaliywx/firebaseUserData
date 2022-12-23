@@ -15,34 +15,41 @@ class APIManager {
     static let shared = APIManager()
     
     private var ref: DatabaseReference!
-    
-    func enter(name: String, email: String, password: String, isSignup: Bool, target: UIViewController, completion: @escaping () -> ()) {
         
-        if isSignup {
-            if (!name.isEmpty && !email.isEmpty && !password.isEmpty) {
-                Auth.auth().createUser(withEmail: email, password: password) { result, error in
-                    if error == nil {
-                        if let result = result {
-                            print(result.user.uid)
-                            let ref = Database.database().reference().child("users")
-                            ref.child(result.user.uid).updateChildValues(["name": name, "email": email])
-                            target.dismiss(animated: true)
-                        }
-                    }
+    func login(email: String, password: String, vc: UIViewController, warningLabel: UILabel) {
+        if (!email.isEmpty && !password.isEmpty) {
+            Auth.auth().signIn(withEmail: email, password: password) { result, error in
+                if error == nil {
+                    vc.dismiss(animated: true)
+                } else {
+                    warningLabel.text = "Wrong email or password"
+                    warningLabel.isHidden = false
                 }
-            } else {
-                completion()
             }
         } else {
-            if (!email.isEmpty && !password.isEmpty) {
-                Auth.auth().signIn(withEmail: email, password: password) { result, error in
-                    if error == nil {
-                        target.dismiss(animated: true)
+            warningLabel.text = "Wrong email or password"
+            warningLabel.isHidden = false
+        }
+    }
+    
+    func signup(name: String, email: String, password: String, vc: UIViewController, warningLabel: UILabel) {
+        if (!name.isEmpty && !email.isEmpty && !password.isEmpty) {
+            Auth.auth().createUser(withEmail: email, password: password) { result, error in
+                if error == nil {
+                    if let result = result {
+                        print(result.user.uid)
+                        let ref = Database.database().reference().child("users")
+                        ref.child(result.user.uid).updateChildValues(["name": name, "email": email])
+                        vc.dismiss(animated: true)
                     }
+                } else {
+                    warningLabel.text = "Error occurred"
+                    warningLabel.isHidden = false
                 }
-            } else {
-                completion()
             }
+        } else {
+            warningLabel.text = "Some field is empty"
+            warningLabel.isHidden = false
         }
     }
     
@@ -55,20 +62,13 @@ class APIManager {
     }
     
     func postData(text: String) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        ref = Database.database().reference().child("users/\(uid)/tasks")
-        
-        let encoder = JSONEncoder()
-        guard let ref = ref else { return }
-        if text.isEmpty { return }
-        let task = Task(text: text)
-        
-        do {
-            let data = try encoder.encode(task)
-            let json = try JSONSerialization.jsonObject(with: data)
-            ref.childByAutoId().setValue(json)
-        } catch {
-            print("an error occurred", error)
+        if let uid = Auth.auth().currentUser?.uid, var ref = ref  {
+            if let taskId = ref.childByAutoId().key, !text.isEmpty {
+                ref = Database.database().reference().child("users/\(uid)/tasks")
+                let task = Task(text: text, taskId: taskId)
+                ref.child(taskId).setValue(["taskId": taskId, "text": task.text])
+                print(taskId)
+            }
         }
     }
     
@@ -81,7 +81,6 @@ class APIManager {
             ref.observe(.childAdded) { (snapshot, arg)  in
 
                 guard var json = snapshot.value as? [String: Any] else { return }
-                json["id"] = snapshot.key
 
                 do {
                     let data = try JSONSerialization.data(withJSONObject: json)
@@ -95,11 +94,15 @@ class APIManager {
         }
     }
     
-    func updateData(text: String) {
-        
+    func updateData(newValue: String, taskId: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        ref = Database.database().reference().child("users/\(uid)/tasks")
+        ref.child(taskId).updateChildValues(["text": newValue])
     }
     
-    func deleteData() {
-        
+    func deleteData(taskId: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        ref = Database.database().reference().child("users/\(uid)/tasks")
+        ref.child(taskId).removeValue()
     }
 }

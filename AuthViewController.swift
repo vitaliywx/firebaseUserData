@@ -10,7 +10,7 @@ import Firebase
 
 class AuthViewController: UIViewController {
         
-    var signup: Bool = true {
+    var isSignup: Bool = true {
         willSet {
             if newValue {
 //                warningLabel.isHidden = true
@@ -42,7 +42,7 @@ class AuthViewController: UIViewController {
     }
     
     @IBAction func switchButtonAction(_ sender: Any) {
-        signup = !signup
+        isSignup = !isSignup
     }
     
     @IBAction func enterButtonAction(_ sender: Any) {
@@ -50,8 +50,10 @@ class AuthViewController: UIViewController {
         let email = emailTextField.text!
         let password = passwordTextField.text!
         
-        APIManager.shared.enter(name: name, email: email, password: password, isSignup: signup, target: self) {
-            self.warningLabel.isHidden = false
+        if isSignup {
+            APIManager.shared.signup(name: name, email: email, password: password, vc: self, warningLabel: warningLabel)
+        } else {
+            APIManager.shared.login(email: email, password: password, vc: self, warningLabel: warningLabel)
         }
     }
     

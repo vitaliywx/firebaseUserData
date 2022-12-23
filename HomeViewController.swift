@@ -37,6 +37,13 @@ class HomeViewController: UIViewController {
     @IBAction func addButton(_ sender: Any) {
         setupTask(isAdd: true)
     }
+    
+    @IBAction func testButton(_ sender: Any) {
+        for i in tasks {
+            print(i.taskId)
+        }
+    }
+    
 }
  
 extension HomeViewController {
@@ -45,13 +52,12 @@ extension HomeViewController {
         let alertController = UIAlertController(title: isAdd ? "Add task" : "Update task", message: isAdd ? "Please enter your task detail" : "Please update your task detail", preferredStyle: .alert)
         let save = UIAlertAction(title: isAdd ? "Save" : "Update", style: .default) { _ in
             if let text = alertController.textFields?[0].text {
-                let task = Task(text: text)
-                
                 if isAdd {
                     APIManager.shared.postData(text: text)
                 } else {
-                    self.tasks[index] = task
-//                    APIManager.shared.updateData(text: text)
+                    let task = self.tasks[index]
+                    APIManager.shared.updateData(newValue: text, taskId: task.taskId)
+                    self.tasks[index] = Task(text: text, taskId: task.taskId)
                     self.tableView.reloadData()
                 }
                 self.tableView.reloadData()
@@ -91,8 +97,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         edit.backgroundColor = .systemMint
         
         let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            self.tasks.remove(at: indexPath.row)
-//            DatabaseHelper.shared.deleteContact(contact: self.contactArray[indexPath.row])
+            let task = self.tasks[indexPath.item]
+            self.tasks.remove(at: indexPath.item)
+            tableView.deleteRows(at: [indexPath], with: .top)
+            let taskId = task.taskId
+            APIManager.shared.deleteData(taskId: taskId)
             self.tableView.reloadData()
         }
         
