@@ -13,13 +13,11 @@ class AuthViewController: UIViewController {
     var isSignup: Bool = true {
         willSet {
             if newValue {
-//                warningLabel.isHidden = true
                 titleLabel.text = "Registration"
                 nameTextField.isHidden = false
                 enterButton.setTitle("Sign up", for: .normal)
                 switchButton.setTitle("Already have an account?", for: .normal)
             } else {
-//                warningLabel.isHidden = true
                 titleLabel.text = "Authorization"
                 nameTextField.isHidden = true
                 enterButton.setTitle("Log in", for: .normal)
@@ -35,6 +33,7 @@ class AuthViewController: UIViewController {
     @IBOutlet weak var switchButton: UIButton!
     @IBOutlet weak var enterButton: UIButton!
     @IBOutlet weak var warningLabel: UILabel!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,12 +49,21 @@ class AuthViewController: UIViewController {
         let email = emailTextField.text!
         let password = passwordTextField.text!
         
-        if isSignup {
+        setupSpinner(seconds: 2)
+        
+        if self.isSignup {
             APIManager.shared.signup(name: name, email: email, password: password, vc: self, warningLabel: warningLabel)
         } else {
             APIManager.shared.login(email: email, password: password, vc: self, warningLabel: warningLabel)
         }
     }
     
-    
+    private func setupSpinner(seconds: Int) {
+        spinner.isHidden = false
+        spinner.startAnimating()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(seconds)) {
+            self.spinner.stopAnimating()
+        }
+    }
 }

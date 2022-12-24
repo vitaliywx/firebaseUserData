@@ -109,10 +109,15 @@
                                             <color key="textColor" systemColor="systemRedColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="LSA-Sv-PnG">
+                                            <rect key="frame" x="186.66666666666666" y="416" width="20" height="20"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="phi-LF-9vb" firstAttribute="leading" secondItem="Umg-lI-QI2" secondAttribute="leading" constant="16" id="3ct-cJ-0xB"/>
                                         <constraint firstAttribute="trailing" secondItem="phi-LF-9vb" secondAttribute="trailing" constant="16" id="D0q-rs-B6s"/>
+                                        <constraint firstItem="LSA-Sv-PnG" firstAttribute="centerX" secondItem="Umg-lI-QI2" secondAttribute="centerX" id="ovQ-9u-Gm5"/>
+                                        <constraint firstItem="LSA-Sv-PnG" firstAttribute="centerY" secondItem="Umg-lI-QI2" secondAttribute="centerY" id="vlf-Qf-VK2"/>
                                     </constraints>
                                 </view>
                                 <blurEffect style="regular"/>
@@ -202,6 +207,7 @@
                         <outlet property="enterButton" destination="Dy6-dU-BkL" id="NL8-yo-pV0"/>
                         <outlet property="nameTextField" destination="hN0-gY-o40" id="PbR-DU-SoF"/>
                         <outlet property="passwordTextField" destination="TDR-As-Zs9" id="skD-Ug-Mle"/>
+                        <outlet property="spinner" destination="LSA-Sv-PnG" id="rCm-um-csp"/>
                         <outlet property="switchButton" destination="cma-yz-8Sh" id="tt0-tp-g9H"/>
                         <outlet property="titleLabel" destination="aJw-pH-ob4" id="jcS-tc-t0K"/>
                         <outlet property="warningLabel" destination="phi-LF-9vb" id="FAv-99-ZSA"/>
@@ -209,7 +215,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kqv-Ws-H8b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1743" y="-27"/>
+            <point key="canvasLocation" x="1742.7480916030534" y="-27.464788732394368"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="HVj-kg-Sdv">

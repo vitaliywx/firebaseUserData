@@ -75,10 +75,10 @@ class APIManager {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         ref = Database.database().reference().child("users/\(uid)/tasks")
         let decoder = JSONDecoder()
-        guard var ref = ref else { return }
+        guard let ref = ref else { return }
         
         ref.observe(.childAdded) { snapshot  in
-            if var userDict = snapshot.value as? [String: Any] {
+            if let userDict = snapshot.value as? [String: Any] {
                 do {
                     let data = try JSONSerialization.data(withJSONObject: userDict)
                     let task = try decoder.decode(Task.self, from: data)
