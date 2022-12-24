@@ -16,11 +16,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-        navigationController?.navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.font: UIFont(name: "Savoye LET", size: 30)!,
-            NSAttributedString.Key.foregroundColor: UIColor.white]
+        setupView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,16 +33,17 @@ class HomeViewController: UIViewController {
     @IBAction func addButton(_ sender: Any) {
         setupTask(isAdd: true)
     }
-    
-    @IBAction func testButton(_ sender: Any) {
-        for i in tasks {
-            print(i.taskId)
-        }
-    }
-    
 }
  
 extension HomeViewController {
+    
+    func setupView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont(name: "Savoye LET", size: 30)!,
+            NSAttributedString.Key.foregroundColor: UIColor.white]
+    }
     
     func setupTask(isAdd: Bool, index: Int = 0) {
         let alertController = UIAlertController(title: isAdd ? "Add task" : "Update task", message: isAdd ? "Please enter your task detail" : "Please update your task detail", preferredStyle: .alert)

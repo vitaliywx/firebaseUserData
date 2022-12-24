@@ -70,20 +70,12 @@
                                 <action selector="logoutButton:" destination="BYZ-38-t0r" id="nTW-Eb-rNW"/>
                             </connections>
                         </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="GGt-NI-s8E">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="addButton:" destination="BYZ-38-t0r" id="QH7-jd-JNC"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Test" id="TGO-nH-M0o">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="testButton:" destination="BYZ-38-t0r" id="G52-ZY-Jbt"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="GGt-NI-s8E">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="addButton:" destination="BYZ-38-t0r" id="QH7-jd-JNC"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="0KT-ze-btp" id="p0C-U9-4bt"/>

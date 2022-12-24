@@ -67,7 +67,6 @@ class APIManager {
                 ref = Database.database().reference().child("users/\(uid)/tasks")
                 let task = Task(text: text, taskId: taskId)
                 ref.child(taskId).setValue(["taskId": taskId, "text": task.text])
-                print(taskId)
             }
         }
     }
@@ -76,14 +75,12 @@ class APIManager {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         ref = Database.database().reference().child("users/\(uid)/tasks")
         let decoder = JSONDecoder()
+        guard var ref = ref else { return }
         
-        if let ref = ref {
-            ref.observe(.childAdded) { (snapshot, arg)  in
-
-                guard var json = snapshot.value as? [String: Any] else { return }
-
+        ref.observe(.childAdded) { snapshot  in
+            if var userDict = snapshot.value as? [String: Any] {
                 do {
-                    let data = try JSONSerialization.data(withJSONObject: json)
+                    let data = try JSONSerialization.data(withJSONObject: userDict)
                     let task = try decoder.decode(Task.self, from: data)
                     vc.tasks.append(task)
                     vc.tableView.reloadData()
